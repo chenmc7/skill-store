@@ -1,0 +1,18 @@
+{
+  "paths": {
+    "texlive": "D:\\texlive\\2025\\bin\\windows",
+    "poppler": "D:\\texlive\\2025\\bin\\windows",
+    "workspace": ""
+  },
+  "fonts": {
+    "main": "Microsoft YaHei"
+  },
+  "params": {
+    "merge_gap_sec": 8,
+    "merge_max_chars": 300,
+    "gap_mark_sec": 60,
+    "same_lecture_threshold": 0.8,
+    "diff_lecture_threshold": 0.15
+  },
+  "_note": "留空项由 _shared/doctor.py --autodetect 自动探测填入；参数为全局默认值，可在命令行覆盖。"
+}

@@ -1,0 +1,8 @@
+# 本地临时
+_tmp/
+*.pyc
+__pycache__/
+*.bak
+
+# 样例产物
+assets/samples/*_out*

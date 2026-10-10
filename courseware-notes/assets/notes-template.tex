@@ -1,0 +1,186 @@
+% ============================================================
+%  notes-template.tex —— 投资学讲义模板
+%  引擎：XeLaTeX（必须）+ ctexart（中文）
+%  编译：latexmk -xelatex -interaction=nonstopmode <file>.tex
+%        或 xelatex -interaction=nonstopmode <file>.tex（连编两次）
+% ============================================================
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,shapes.geometric}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{listings}
+\tcbuselibrary{breakable}
+
+% ---------- 元信息（每次生成按需修改）----------
+\newcommand{\CourseName}{投资学}
+\newcommand{\SlideDeckTitle}{第 X 章 课件标题}
+\newcommand{\NoteTitle}{\SlideDeckTitle\ 讲义}
+\newcommand{\NoteSubtitle}{基于课件的图文讲义}
+\newcommand{\NoteAuthor}{讲义模板}
+\newcommand{\NoteDate}{\today}
+
+% ---------- 版面 ----------
+\geometry{margin=2.2cm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=cyan!70!black,
+  pdftitle={\NoteTitle}
+}
+
+% ---------- 目录与列表 ----------
+\setcounter{tocdepth}{2}
+\setlist[itemize]{itemsep=0.4em, topsep=0.4em, parsep=0.15em}
+\setlist[enumerate]{itemsep=0.4em, topsep=0.4em, parsep=0.15em}
+
+% ---------- 代码样式 ----------
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{green!45!black},
+  stringstyle=\color{orange!80!black},
+  showstringspaces=false,
+  captionpos=b,
+  columns=fullflexible
+}
+
+% ---------- 盒子环境 ----------
+% 本节知识体系（章首，星号节内使用）
+\newtcolorbox{structurebox}{
+  breakable, colback=purple!4!white, colframe=purple!55!black,
+  boxrule=0.5pt, arc=2mm, left=3mm, right=3mm, top=2mm, bottom=2mm}
+
+% 核心结论
+\newtcolorbox{importantbox}[1][Core]{
+  breakable, colback=blue!4!white, colframe=blue!65!black,
+  title={\textbf{#1}}, boxrule=0.5pt, arc=1.5mm}
+
+% 背景与旁支
+\newtcolorbox{knowledgebox}[1][Context]{
+  breakable, colback=green!4!white, colframe=green!50!black,
+  title={\textbf{#1}}, boxrule=0.5pt, arc=1.5mm}
+
+% 易错与坑
+\newtcolorbox{warningbox}[1][Pitfall]{
+  breakable, colback=red!4!white, colframe=red!60!black,
+  title={\textbf{#1}}, boxrule=0.5pt, arc=1.5mm}
+
+% 局部提示 / 对比
+\newtcolorbox{notebox}[1][Tips]{
+  breakable, colback=gray!6!white, colframe=gray!55!black,
+  title={\textbf{#1}}, boxrule=0.5pt, arc=1.5mm}
+
+% AI 补充说明（浅蓝：与课件原文明确分离）
+\newtcolorbox{aiexplainbox}[1][Explanation]{
+  breakable, colback=cyan!4!white, colframe=cyan!55!black,
+  title={\textbf{#1}}, boxrule=0.5pt, arc=1.5mm}
+
+% 例题 / 推导 / 证明（课件原题）
+\newtcolorbox{examplebox}[1][Example]{
+  breakable, colback=blue!3!white, colframe=blue!70!black,
+  title={\textbf{#1}}, boxrule=0.6pt, arc=1.5mm}
+
+% 自造变式例题（绿框）——已停用：讲义不再自造题目，例题一律用 examplebox 蓝框。
+% 定义保留以备将来临时需要（如区分「老师课上补充的题」与「课件原题」）。
+\newtcolorbox{variantbox}[1][Variant]{
+  breakable, colback=green!4!white, colframe=green!55!black,
+  title={\textbf{#1}}, boxrule=0.6pt, arc=1.5mm}
+
+% ---------- 图片命令 ----------
+% \notefigure[宽度系数]{文件路径}{题注}
+\newcommand{\notefigure}[3][0.72]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#1\linewidth]{#2}
+    \caption{#3}
+  \end{figure}%
+}
+
+\begin{document}
+
+% ================= 封面 =================
+\begin{titlepage}
+\centering
+\vspace*{3.5cm}
+{\Huge\bfseries \NoteTitle\par}
+\vspace{0.8cm}
+{\Large \NoteSubtitle\par}
+\vspace{1.5cm}
+{\large \CourseName\par}
+\vspace{0.4cm}
+{\normalsize \SlideDeckTitle\par}
+\vfill
+{\large \NoteAuthor\par}
+{\large \NoteDate\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============ 本节知识体系（不在目录中）============
+\section*{本节知识体系}
+\begin{structurebox}
+在此写出本讲的中心议题、要解决的问题与学习目标、主要概念块、块与块之间的依赖或推进关系，
+以及公式 / 方法 / 图 / 例题 / 应用在结构中的位置。不要罗列幻灯片标题。
+\end{structurebox}
+
+% ============ 正文：按知识点分节 ============
+\section{第一个一级知识点}
+
+正文……
+
+\subsection{子知识点}
+
+\subsubsection{更细的知识点}
+
+% --- 例题（课件原题，一律蓝框；规则见 exam-problems）---
+\begin{examplebox}[Example]
+\textbf{已知}：……\\
+\textbf{求}：……\\
+\textbf{解答}：
+\begin{enumerate}
+  \item \textbf{步骤 1}：…… \quad 依据：……
+  \item \textbf{步骤 2}：…… \quad 依据：……
+\end{enumerate}
+\textbf{答案}：……\\
+\textbf{解读}：……
+\end{examplebox}
+
+% --- 图（有图后取消注释；确保 figures/ 下有对应文件）---
+% \notefigure[0.72]{figures/slide_08_example.png}{示例图：……}
+
+% --- AI 补充 ---
+\begin{aiexplainbox}[Explanation]
+这里放课件未明说、但有助于理解的补充解释。
+\end{aiexplainbox}
+
+% --- 核心结论 ---
+\begin{importantbox}[Core]
+……
+\end{importantbox}
+
+\subsection{本章小结}
+\begin{itemize}
+  \item \textbf{本讲重点}：……
+  \item \textbf{必记公式}：……
+  \item \textbf{易错点}：……
+\end{itemize}
+
+\end{document}

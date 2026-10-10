@@ -1,0 +1,13 @@
+{
+  "_note": "黄金样例的期望指标。verify_golden.py 逐项比对；改动样例或工具规则时必须同步更新。粒度阈值（≤12 字段落占比 >40% 判逐小句）的边界情形不在本样例覆盖范围内——本样例短段占比 30%，判为段落级。",
+  "sample": "assets/samples/sample_transcript.md",
+  "expect": {
+    "layout": "② 时间码段与正文段交替",
+    "segments": 30,
+    "timeline_monotonic": false,
+    "min_duration_minutes": 41,
+    "min_anomaly_segments": 1,
+    "glossary_min_hits": 3,
+    "granularity": "段落级"
+  }
+}
